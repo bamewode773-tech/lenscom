@@ -233,6 +233,8 @@ table.rep tr.tot td{background:#f4f0e2;font-weight:700}
 @media(max-width:520px){.paper::before{font-size:34px}.rh h2{font-size:16px}.stamp{width:70px;height:70px;font-size:7px;bottom:70px}}
 @media print{body *{visibility:hidden}.paper,.paper *{visibility:visible}.paper{position:absolute;left:0;top:0;width:100%;max-width:none;box-shadow:none}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 </head>
 <body>
 
@@ -334,8 +336,8 @@ table.rep tr.tot td{background:#f4f0e2;font-weight:700}
   <button class="xb" onclick="$('modal').classList.add('hidden')">×</button>
   <div class="crest"></div><h2>Portal Login</h2>
   <p class="sname" style="color:var(--gold);font-size:10.5px;letter-spacing:.25em;margin:6px 0 22px;font-weight:600;text-transform:uppercase"></p>
-  <input id="lname" placeholder="Full Name" autocomplete="off">
-  <input id="lkey" placeholder="Access Key" type="password" autocomplete="off">
+  <input id="lname" placeholder="Email address" autocomplete="off">
+  <input id="lkey" placeholder="Password" type="password" autocomplete="off">
   <button class="btn gold block" onclick="doLogin()">Sign In</button>
   <div id="err"></div>
 </div></div>
@@ -347,7 +349,7 @@ table.rep tr.tot td{background:#f4f0e2;font-weight:700}
 </div>
 
 <script>
-const ADMIN={name:'Lens INT',key:'Lens INT.55'};
+const lensClient=window.supabase.createClient(window.LENS_SUPABASE_URL,window.LENS_SUPABASE_KEY);
 const $=id=>document.getElementById(id);
 const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
 const persist=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){alert('Storage is full. Use smaller pictures or remove some pictures.');return false}};
@@ -398,7 +400,7 @@ let site=Object.assign(JSON.parse(JSON.stringify(DEF)),ld('lens_site',{}));
 let students=ld('lens_students',[]),teachers=ld('lens_teachers',[]),tasks=ld('lens_tasks',[]),subs=ld('lens_subs',[]),
 att=ld('lens_att',{}),examEnds=ld('lens_exam',{}),notices=ld('lens_notices',[]),apps=ld('lens_apps',[]),
 settings=ld('lens_settings',{session:'2026/2027',term:'Term 1',next:'To be announced'}),
-session=ld('lens_session',null);
+session=null;
 let tab='website',ttab='overview',stab='report',openTask=null,newPhoto='',
  sel={stu:'',term:settings.term,tf:'All',cls:'',date:today()},
  draft={type:'Homework',title:'',cls:'',due:'',mins:'',max:'10',inst:'',qs:[]};
@@ -476,14 +478,38 @@ const tpill=k=>`<span class="tp ${k.type}">${k.type}</span>`;
 
 /* login */
 function openLogin(){$('modal').classList.remove('hidden')}
-function doLogin(){const n=$('lname').value.trim(),k=$('lkey').value.trim().toUpperCase();
- const s=students.find(s=>same(s.name,n)&&s.key.toUpperCase()===k),t=teachers.find(t=>same(t.name,n)&&t.key.toUpperCase()===k);
- if(n===ADMIN.name&&$('lkey').value.trim()===ADMIN.key)session={role:'admin',name:n};
- else if(s)session={role:'student',id:s.id,name:s.name};
- else if(t)session={role:'teacher',id:t.id,name:t.name};
- else{$('err').textContent='Invalid name or key.';return}
- sv('lens_session',session);$('err').textContent='';$('modal').classList.add('hidden');openTask=null;start()}
-function logout(){localStorage.removeItem('lens_session');session=null;openTask=null;$('back').classList.add('hidden');$('site').classList.remove('hidden');$('app').classList.add('hidden');$('lname').value='';$('lkey').value='';scrollTo(0,0)}
+async function doLogin(){
+ const email=$('lname').value.trim(),password=$('lkey').value;
+ $('err').textContent='';
+ const {data,error}=await lensClient.auth.signInWithPassword({email,password});
+ if(error){$('err').textContent='Login failed: '+error.message;return}
+ const {data:p,error:pe}=await lensClient.from('profiles').select('full_name,role').eq('id',data.user.id).single();
+ if(pe||!p||!['admin','teacher','student'].includes(p.role)){
+  await lensClient.auth.signOut();
+  $('err').textContent='No valid portal profile exists for this account.';
+  return;
+ }
+ session={id:data.user.id,email,role:p.role,name:p.full_name||email};
+ $('modal').classList.add('hidden');openTask=null;start();
+}
+async function logout(){
+ await lensClient.auth.signOut();
+ session=null;openTask=null;
+ $('back').classList.add('hidden');$('site').classList.remove('hidden');
+ $('app').classList.add('hidden');$('lname').value='';$('lkey').value='';
+ scrollTo(0,0);
+}
+async function restoreAuth(){
+ const {data,error}=await lensClient.auth.getSession();
+ if(error||!data.session)return;
+ const u=data.session.user;
+ const {data:p,error:pe}=await lensClient.from('profiles').select('full_name,role').eq('id',u.id).single();
+ if(pe||!p||!['admin','teacher','student'].includes(p.role)){
+  await lensClient.auth.signOut();return;
+ }
+ session={id:u.id,email:u.email,role:p.role,name:p.full_name||u.email};
+ start();
+}
 function start(){$('site').classList.add('hidden');$('app').classList.remove('hidden');$('back').classList.add('hidden');$('who').textContent=({admin:'Administrator',teacher:'Teacher Portal',student:'Student Portal'})[session.role];scrollTo(0,0);render()}
 function previewSite(){$('site').classList.remove('hidden');$('app').classList.add('hidden');$('back').classList.remove('hidden');scrollTo(0,0)}
 function backAdmin(){$('site').classList.add('hidden');$('app').classList.remove('hidden');$('back').classList.add('hidden');scrollTo(0,0)}
@@ -761,7 +787,7 @@ setInterval(()=>{const e=$('tm');if(!e||!session||session.role!=='student')retur
 
 $('lkey').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 applySite();pubNews();
-if(session)start();
+restoreAuth();
 </script>
 </body>
 </html>
