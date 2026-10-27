@@ -339,6 +339,7 @@ table.rep tr.tot td{background:#f4f0e2;font-weight:700}
   <input id="lname" placeholder="Email address" autocomplete="off">
   <input id="lkey" placeholder="Password" type="password" autocomplete="off">
   <button class="btn gold block" onclick="doLogin()">Sign In</button>
+  <button class="btn ghostl block" style="margin-top:10px" onclick="resetPassword()">Forgot Password?</button>
   <div id="err"></div>
 </div></div>
 
@@ -477,6 +478,21 @@ const tabsHtml=(map,cur,v)=>`<div class="tabs">${Object.keys(map).map(t=>`<div c
 const tpill=k=>`<span class="tp ${k.type}">${k.type}</span>`;
 
 /* login */
+async function resetPassword(){
+ const email=$('lname').value.trim();
+ $('err').textContent='';
+ if(!email){
+  $('err').textContent='Enter your email address above first.';
+  $('lname').focus();
+  return;
+ }
+ const {error}=await lensClient.auth.resetPasswordForEmail(email,{
+  redirectTo:window.location.origin+window.location.pathname+'?reset-password=1'
+ });
+ $('err').textContent=error
+  ?'Could not send reset email: '+error.message
+  :'If this email belongs to an account, check its inbox and spam folder for the password-reset link.';
+}
 function openLogin(){$('modal').classList.remove('hidden')}
 async function doLogin(){
  const email=$('lname').value.trim(),password=$('lkey').value;
@@ -784,6 +800,27 @@ function submitTask(id,auto,quiet){
 function retake(id){subs=subs.filter(b=>!(b.taskId===id&&b.sid===session.id));save();render()}
 setInterval(()=>{const e=$('tm');if(!e||!session||session.role!=='student')return;const left=+e.dataset.end-Date.now();
  if(left<=0){submitTask(e.dataset.id,true);alert('Time is up! Your exam was submitted.')}else e.querySelector('b').textContent=fmt(left)},1000);
+
+
+lensClient.auth.onAuthStateChange((event) => {
+ if(event==='PASSWORD_RECOVERY'){
+  setTimeout(async()=>{
+   const password=prompt('Enter your new password (at least 8 characters):');
+   if(!password || password.length<8){
+    alert('Password not changed. Please request another reset link if needed.');
+    return;
+   }
+   const confirmation=prompt('Enter your new password again:');
+   if(password!==confirmation){
+    alert('The passwords do not match. Please request another reset link.');
+    return;
+   }
+   const {error}=await lensClient.auth.updateUser({password});
+   if(error) alert('Password update failed: '+error.message);
+   else alert('Password updated. You can now sign in with your new password.');
+  },0);
+ }
+});
 
 $('lkey').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 applySite();pubNews();
