@@ -232,6 +232,8 @@ table.rep tr.tot td{background:#f4f0e2;font-weight:700}
 .kl{font-size:9.5px;color:#555;margin-top:12px;text-align:center;position:relative}
 @media(max-width:520px){.paper::before{font-size:34px}.rh h2{font-size:16px}.stamp{width:70px;height:70px;font-size:7px;bottom:70px}}
 @media print{body *{visibility:hidden}.paper,.paper *{visibility:visible}.paper{position:absolute;left:0;top:0;width:100%;max-width:none;box-shadow:none}}
+ .arcade-section{background:#081321;color:#fff;overflow:hidden;position:relative}.arcade-section::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(27,86,126,.2),transparent 68%);top:5%;left:50%;transform:translateX(-50%);pointer-events:none}.arcade-section .wrap{position:relative;z-index:1}.arcade-section .title{color:#fff}.arcade-section .lead{color:rgba(255,255,255,.58)}.arcade-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:32px}.arcade-tip{display:grid;gap:5px;border-left:1px solid rgba(255,255,255,.15);padding:8px 0 8px 20px;color:rgba(255,255,255,.63);font-size:12px;flex:none}.arcade-tip b,.arcade-kicker{font-size:9px;letter-spacing:.18em;color:#75dbff}.arcade-frame{max-width:920px;margin:auto;border:1px solid rgba(117,219,255,.24);border-radius:16px;background:#07101d;box-shadow:0 24px 70px rgba(0,0,0,.4);overflow:hidden}.arcade-hud{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid rgba(255,255,255,.08);font-size:9px;letter-spacing:.15em;color:rgba(255,255,255,.48)}.arcade-hud b{color:#fff;font-size:13px;margin-left:7px;letter-spacing:.08em}.arcade-hud #game-lives{color:#ff6684;letter-spacing:.18em}.arcade-stage{height:440px;position:relative;background:#050b15;touch-action:none}.arcade-stage canvas{display:block;width:100%;height:100%}.arcade-overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(3,9,17,.38);backdrop-filter:blur(3px);transition:opacity .25s}.arcade-overlay.off{opacity:0;pointer-events:none}.arcade-overlay-card{width:min(370px,calc(100% - 36px));padding:30px;border:1px solid rgba(117,219,255,.3);border-radius:15px;text-align:center;background:rgba(8,19,33,.94);box-shadow:0 16px 50px rgba(0,0,0,.3)}.arcade-overlay-card h3{color:#fff;font-size:32px;margin:9px 0}.arcade-overlay-card p{font-size:12px;color:rgba(255,255,255,.62);line-height:1.65;margin-bottom:20px}.arcade-overlay-card .btn span{margin-left:8px}.arcade-controls{height:54px;display:flex;align-items:center;gap:23px;padding:0 17px;color:rgba(255,255,255,.68);font-size:10px;letter-spacing:.1em}.arcade-controls small{color:rgba(255,255,255,.35);font-size:8px;margin-left:4px}.arcade-controls button{margin-left:auto;border:1px solid rgba(117,219,255,.45);border-radius:100px;color:#75dbff;padding:8px 17px;font-size:9px;letter-spacing:.15em}.arcade-foot{max-width:920px;margin:14px auto 0;display:flex;justify-content:space-between;color:rgba(255,255,255,.4);font-size:10px}.arcade-foot b{color:#75dbff;letter-spacing:.1em;margin-left:7px}
+@media(max-width:700px){.arcade-head{align-items:start;flex-direction:column;gap:18px}.arcade-tip{grid-template-columns:auto 1fr;border-left:0;padding:0;column-gap:12px}.arcade-tip b{grid-row:span 2;align-self:center}.arcade-stage{height:min(440px,105vw)}.arcade-foot{gap:12px;flex-direction:column}.arcade-controls{gap:10px;padding:0 11px;font-size:9px}.arcade-hud{padding:0 12px;font-size:8px}.arcade-hud b{font-size:11px;margin-left:3px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
@@ -243,14 +245,14 @@ table.rep tr.tot td{background:#f4f0e2;font-weight:700}
 <nav id="nav">
   <a class="brand" href="#top"><div class="crest"></div><div><b class="sname"></b><small class="stag"></small></div></a>
   <div class="links">
-    <a href="#about">About</a><a href="#programmes">Programmes</a><a href="#why">Why Us</a><a href="#gallery">Gallery</a><a href="#news">News</a><a href="#contact">Admissions</a>
+    <a href="#about">About</a><a href="#programmes">Programmes</a><a href="#why">Why Us</a><a href="#gallery">Gallery</a><a href="#news">News</a><a href="#arcade">Arcade</a><a href="#contact">Admissions</a>
     <button class="btn gold sm" onclick="openLogin()">Portal Login</button>
   </div>
   <button class="menub" onclick="$('mm').classList.add('open')">MENU</button>
 </nav>
 <div id="mm">
   <button class="x" onclick="$('mm').classList.remove('open')">×</button>
-  <a href="#about" onclick="cm()">About</a><a href="#programmes" onclick="cm()">Programmes</a><a href="#why" onclick="cm()">Why Us</a><a href="#gallery" onclick="cm()">Gallery</a><a href="#news" onclick="cm()">News</a><a href="#contact" onclick="cm()">Admissions</a>
+  <a href="#about" onclick="cm()">About</a><a href="#programmes" onclick="cm()">Programmes</a><a href="#why" onclick="cm()">Why Us</a><a href="#gallery" onclick="cm()">Gallery</a><a href="#news" onclick="cm()">News</a><a href="#arcade" onclick="cm()">Arcade</a><a href="#contact" onclick="cm()">Admissions</a>
   <button class="btn gold" onclick="cm();openLogin()">Portal Login</button>
 </div>
 
@@ -309,6 +311,12 @@ table.rep tr.tot td{background:#f4f0e2;font-weight:700}
 <section id="news" class="alt"><div class="wrap" style="max-width:760px">
   <div class="center"><span class="eyebrow">News & Notices</span><h2 class="title">Latest <em>announcements</em></h2></div>
   <div id="pubnews" style="margin-top:36px"></div>
+</div></section>
+
+<section id="arcade" class="arcade-section"><div class="wrap">
+  <div class="arcade-head"><div><span class="eyebrow">After class</span><h2 class="title">Star <em>Defender</em></h2><p class="lead">Pilot your ship, blast through the incoming drones, and see how long you can survive.</p></div><div class="arcade-tip"><b>CONTROLS</b><span>Move: WASD / arrow keys</span><span>Fire: Space / hold FIRE</span></div></div>
+  <div class="arcade-frame"><div class="arcade-hud"><span>SECTOR <b id="game-wave">01</b></span><span>SCORE <b id="game-score">00000</b></span><span>HULL <b id="game-lives">♥ ♥ ♥</b></span></div><div class="arcade-stage"><canvas id="game-canvas" aria-label="Star Defender arcade game"></canvas><div class="arcade-overlay" id="game-overlay"><div class="arcade-overlay-card"><span class="arcade-kicker">DEFEND THE GALAXY</span><h3 id="game-title">Ready, pilot?</h3><p id="game-message">Dodge the drones and clear each sector. Your best score stays on this device.</p><button class="btn gold" id="game-start">Launch mission <span>→</span></button></div></div></div><div class="arcade-controls"><span>← → ↑ ↓ <small>MOVE</small></span><span>SPACE <small>FIRE</small></span><button id="game-fire" aria-label="Hold to fire">FIRE</button></div></div>
+  <div class="arcade-foot"><span>BEST SCORE <b id="game-best">00000</b></span><span>Tip: keep moving to avoid enemy fire.</span></div>
 </div></section>
 
 <section id="contact"><div class="wrap two" style="align-items:start">
@@ -635,6 +643,7 @@ function renderAdmin(){
  if(tab==='website')h+=webTab();
  if(tab==='students')h+=`<div class="card"><h3>Add Student</h3>
   <div class="row"><input id="sn" placeholder="Full name"><input id="sc" placeholder="Class (e.g. JHS 2)"></div>
+  <div class="row"><input id="se" type="email" placeholder="Student login email"><input id="sp" type="password" placeholder="Temporary password (8+ characters)"></div>
   <div class="row"><select id="sg"><option>Male</option><option>Female</option></select><input id="sd" type="date"></div>
   <div class="row" style="align-items:center"><button class="btn xs ghost" onclick="pickPhoto(d=>{newPhoto=d;$('pv').textContent='Photo added'})">Add Photo</button><span id="pv" style="font-size:13px;color:var(--green)"></span></div>
   <button class="btn sm gold" onclick="addStudent()">Add & Generate Key</button><div id="nk"></div></div>
@@ -643,6 +652,7 @@ function renderAdmin(){
   <td style="white-space:nowrap"><button class="lk b" onclick="setPhoto('${s.id}')">Photo</button><button class="lk b" onclick="newKey('${s.id}')">New key</button><button class="lk" onclick="delStudent('${s.id}')">Delete</button></td></tr>`).join('')}</table></div>`:'<div class="empty">No students yet.</div>'}</div>`;
  if(tab==='teachers')h+=`<div class="card"><h3>Add Teacher</h3>
   <div class="row"><input id="tn" placeholder="Teacher full name"><input id="ts" placeholder="Subject (e.g. Mathematics)"></div>
+  <div class="row"><input id="te" type="email" placeholder="Teacher login email"><input id="tp" type="password" placeholder="Temporary password (8+ characters)"></div>
   <div class="row"><input id="tc" placeholder="Classes taught, separated by comma (e.g. JHS 1, JHS 2)"></div>
   <small style="color:var(--muted);display:block;margin-bottom:10px">Write each class exactly the way it is written for students.</small>
   <button class="btn sm gold" onclick="addTeacher()">Add & Generate Key</button><div id="nk"></div></div>
@@ -661,19 +671,37 @@ function renderAdmin(){
   <div class="row"><input id="sx" value="${esc(settings.next)}" placeholder="Next term begins"></div><button class="btn sm gold" onclick="saveSet()">Save</button></div>`;
  $('view').innerHTML=h}
 function noticeList(list,canDel){return list.length?list.map(n=>`<div class="nw"><small>${esc(n.date)} · ${n.cls?esc(n.cls)+(n.by?' · '+esc(n.by):''):'Whole school'}</small><br><b>${esc(n.title)}</b><p>${esc(n.text)}</p>${canDel?`<button class="lk" onclick="notices.splice(${notices.indexOf(n)},1);save();pubNews();render()">Delete</button>`:''}</div>`).join(''):'<div class="empty">No notices.</div>'}
-function addStudent(){const n=$('sn').value.trim(),c=$('sc').value.trim();
- if(!n||!c){alert('Enter name and class');return}
+async function addStudent(){
+ const n=$('sn').value.trim(),c=$('sc').value.trim(),email=$('se').value.trim(),password=$('sp').value;
+ if(!n||!c||!email||!password){alert('Enter name, class, email and temporary password');return}
+ if(password.length<8){alert('Use a password with at least 8 characters');return}
  if(students.some(s=>same(s.name,n))||teachers.some(t=>same(t.name,n))){alert('This name already exists. Add a middle name or initial.');return}
- const s={id:'s'+Date.now(),name:n,cls:c,gender:$('sg').value,dob:$('sd').value,adm:'LA/'+new Date().getFullYear()+'/'+String(students.length+1).padStart(3,'0'),key:genKey('LNS'),photo:newPhoto,results:[],remarks:{}};
- students.push(s);newPhoto='';save();renderAdmin();$('nk').innerHTML=`<div class="newkey">Added! Key for <b>${esc(n)}</b>: <span class="key">${s.key}</span></div>`}
+ const btn=document.querySelector('button[onclick="addStudent()"]');if(btn){btn.disabled=true;btn.textContent='Creating account...'}
+ try{
+  const {data,error}=await lensClient.functions.invoke('Create-school-account-',{body:{name:n,email,password,role:'student'}});
+  if(error||!data||data.error){alert('Account creation failed: '+(data?.error||error?.message||'No response from server'));return}
+  const s={id:'s'+Date.now(),name:n,cls:c,gender:$('sg').value,dob:$('sd').value,adm:'LA/'+new Date().getFullYear()+'/'+String(students.length+1).padStart(3,'0'),key:genKey('LNS'),photo:newPhoto,results:[],remarks:{},email};
+  students.push(s);newPhoto='';save();renderAdmin();$('nk').innerHTML=`<div class="newkey">Account created! Key for <b>${esc(n)}</b>: <span class="key">${s.key}</span></div>`;
+ }catch(e){alert('Account creation failed: '+e.message)}
+ finally{const b=document.querySelector('button[onclick="addStudent()"]');if(b){b.disabled=false;b.textContent='Add & Generate Key'}}
+}
 function setPhoto(id){pickPhoto(d=>{students.find(s=>s.id===id).photo=d;save();render()})}
 function newKey(id){const s=students.find(x=>x.id===id);if(confirm('New key for '+s.name+'?')){s.key=genKey('LNS');save();render()}}
 function delStudent(id){if(confirm('Delete student and all results?')){students=students.filter(s=>s.id!==id);subs=subs.filter(b=>b.sid!==id);save();render()}}
-function addTeacher(){const n=$('tn').value.trim(),sb=$('ts').value.trim(),c=$('tc').value.trim();
- if(!n||!sb||!c){alert('Enter name, subject and classes');return}
+async function addTeacher(){
+ const n=$('tn').value.trim(),sb=$('ts').value.trim(),c=$('tc').value.trim(),email=$('te').value.trim(),password=$('tp').value;
+ if(!n||!sb||!c||!email||!password){alert('Enter name, subject, classes, email and temporary password');return}
+ if(password.length<8){alert('Use a password with at least 8 characters');return}
  if(students.some(s=>same(s.name,n))||teachers.some(t=>same(t.name,n))){alert('This name already exists. Add a middle name or initial.');return}
- const t={id:'t'+Date.now(),name:n,subject:sb,classes:c,key:genKey('TCH')};
- teachers.push(t);save();renderAdmin();$('nk').innerHTML=`<div class="newkey">Teacher added! Key for <b>${esc(n)}</b>: <span class="key">${t.key}</span></div>`}
+ const btn=document.querySelector('button[onclick="addTeacher()"]');if(btn){btn.disabled=true;btn.textContent='Creating account...'}
+ try{
+  const {data,error}=await lensClient.functions.invoke('Create-school-account-',{body:{name:n,email,password,role:'teacher'}});
+  if(error||!data||data.error){alert('Account creation failed: '+(data?.error||error?.message||'No response from server'));return}
+  const t={id:'t'+Date.now(),name:n,subject:sb,classes:c,key:genKey('TCH'),email};
+  teachers.push(t);save();renderAdmin();$('nk').innerHTML=`<div class="newkey">Teacher account created! Key for <b>${esc(n)}</b>: <span class="key">${t.key}</span></div>`;
+ }catch(e){alert('Account creation failed: '+e.message)}
+ finally{const b=document.querySelector('button[onclick="addTeacher()"]');if(b){b.disabled=false;b.textContent='Add & Generate Key'}}
+}
 function editTeacher(id){const t=teachers.find(x=>x.id===id),v=prompt('Classes taught (separate with commas):',t.classes);if(v&&v.trim()){t.classes=v.trim();save();render()}}
 function newTKey(id){const t=teachers.find(x=>x.id===id);if(confirm('New key for '+t.name+'?')){t.key=genKey('TCH');save();render()}}
 function delTeacher(id){if(confirm('Delete this teacher and all tasks they created?')){const ids=tasks.filter(k=>k.tid===id).map(k=>k.id);tasks=tasks.filter(k=>k.tid!==id);subs=subs.filter(b=>!ids.includes(b.taskId));teachers=teachers.filter(t=>t.id!==id);save();render()}}
@@ -825,6 +853,44 @@ lensClient.auth.onAuthStateChange((event) => {
 $('lkey').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 applySite();pubNews();
 restoreAuth();
+
+/* STAR DEFENDER ARCADE */
+(()=>{
+ const canvas=$('game-canvas'),ctx=canvas.getContext('2d'),stage=canvas.parentElement;
+ const ui={score:$('game-score'),wave:$('game-wave'),lives:$('game-lives'),best:$('game-best'),overlay:$('game-overlay'),title:$('game-title'),message:$('game-message'),start:$('game-start')};
+ let w=0,h=0,dpr=1,live=false,last=0,score=0,lives=3,wave=1,spawn=0,shot=0,stars=[],foes=[],shots=[],enemyShots=[],sparks=[],keys={},pointer=null,best=+(localStorage.getItem('starDefenderBest')||0);
+ const ship={x:0,y:0,r:13,speed:300};ui.best.textContent=String(best).padStart(5,'0');
+ function resize(){const b=stage.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,2);w=b.width;h=b.height;canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);if(!live){ship.x=w/2;ship.y=h-48}stars=Array.from({length:85},()=>({x:Math.random()*w,y:Math.random()*h,z:.4+Math.random()*1.8}))}
+ new ResizeObserver(resize).observe(stage);resize();
+ function hud(){ui.score.textContent=String(score).padStart(5,'0');ui.wave.textContent=String(wave).padStart(2,'0');ui.lives.textContent=lives>0?Array(lives).fill('♥').join(' '):'—'}
+ function start(){score=0;lives=3;wave=1;spawn=.35;shot=0;foes=[];shots=[];enemyShots=[];sparks=[];ship.x=w/2;ship.y=h-48;live=true;last=performance.now();ui.overlay.classList.add('off');hud();requestAnimationFrame(loop)}
+ function finish(){live=false;const fresh=score>best;if(fresh){best=score;localStorage.setItem('starDefenderBest',best);ui.best.textContent=String(best).padStart(5,'0')}ui.title.textContent=fresh?'New high score!':'Mission over';ui.message.textContent=`You scored ${score}. ${fresh?'A new best for this device!':'Clear another sector and beat your best score.'}`;ui.start.innerHTML='Play again <span>→</span>';ui.overlay.classList.remove('off')}
+ ui.start.addEventListener('click',start);
+ const down=e=>{keys[e.code]=true;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault()};const up=e=>{keys[e.code]=false};window.addEventListener('keydown',down);window.addEventListener('keyup',up);window.addEventListener('blur',()=>keys={});
+ const fire=$('game-fire');fire.addEventListener('pointerdown',e=>{e.preventDefault();keys.Space=true;fire.setPointerCapture(e.pointerId)});['pointerup','pointercancel','lostpointercapture'].forEach(n=>fire.addEventListener(n,()=>keys.Space=false));
+ canvas.addEventListener('pointerdown',e=>{const r=canvas.getBoundingClientRect();pointer={x:e.clientX-r.left,y:e.clientY-r.top};keys.Space=true;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(e.buttons){const r=canvas.getBoundingClientRect();pointer={x:e.clientX-r.left,y:e.clientY-r.top}}});['pointerup','pointercancel','lostpointercapture'].forEach(n=>canvas.addEventListener(n,()=>{pointer=null;keys.Space=false}));
+ function circle(x,y,r,color,glow){ctx.save();ctx.shadowBlur=glow;ctx.shadowColor=color;ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.restore()}
+ function loop(now){if(!live)return;const dt=Math.min((now-last)/1000,.035);last=now;update(dt);draw(dt);if(live)requestAnimationFrame(loop)}
+ function update(dt){for(const s of stars){s.y+=38*s.z*dt;if(s.y>h){s.y=0;s.x=Math.random()*w}}
+  let dx=(keys.ArrowRight||keys.KeyD?1:0)-(keys.ArrowLeft||keys.KeyA?1:0),dy=(keys.ArrowDown||keys.KeyS?1:0)-(keys.ArrowUp||keys.KeyW?1:0);
+  if(pointer){ship.x+=(pointer.x-ship.x)*Math.min(1,dt*9);ship.y+=(pointer.y-ship.y)*Math.min(1,dt*9)}else{ship.x+=dx*ship.speed*dt;ship.y+=dy*ship.speed*dt}ship.x=Math.max(17,Math.min(w-17,ship.x));ship.y=Math.max(20,Math.min(h-20,ship.y));
+  shot-=dt;if(keys.Space&&shot<=0){shots.push({x:ship.x,y:ship.y-18,r:3});shot=.19}
+  spawn-=dt;if(spawn<=0){foes.push({x:24+Math.random()*(w-48),y:-20,hp:wave>2?2:1,r:wave>2?15:12,s:55+wave*8,phase:Math.random()*7});spawn=Math.max(.32,1.05-wave*.055)}
+  for(let i=foes.length-1;i>=0;i--){const f=foes[i];f.y+=f.s*dt;f.x+=Math.sin(now/500+f.phase)*28*dt;if(Math.random()<dt*(.12+wave*.018))enemyShots.push({x:f.x,y:f.y+9,r:3,s:125+wave*5});if(f.y>h+20){foes.splice(i,1);hit()} }
+  for(let i=shots.length-1;i>=0;i--){const b=shots[i];b.y-=470*dt;if(b.y<0){shots.splice(i,1);continue}for(let j=foes.length-1;j>=0;j--){const f=foes[j];if(Math.hypot(b.x-f.x,b.y-f.y)<f.r+4){shots.splice(i,1);f.hp--;sparks.push({x:f.x,y:f.y,t:.25});if(f.hp<=0){foes.splice(j,1);score+=10*wave;hud()}break}}}
+  for(let i=enemyShots.length-1;i>=0;i--){const b=enemyShots[i];b.y+=b.s*dt;if(Math.hypot(b.x-ship.x,b.y-ship.y)<b.r+10){enemyShots.splice(i,1);hit();continue}if(b.y>h)enemyShots.splice(i,1)}
+  for(let i=foes.length-1;i>=0;i--){const f=foes[i];if(Math.hypot(f.x-ship.x,f.y-ship.y)<f.r+11){foes.splice(i,1);hit()}}
+  sparks=sparks.filter(p=>(p.t-=dt)>0);const next=1+Math.floor(score/180);if(next>wave){wave=next;hud()}
+ }
+ function hit(){lives--;hud();sparks.push({x:ship.x,y:ship.y,t:.45});if(lives<=0)finish()}
+ function draw(dt){ctx.clearRect(0,0,w,h);const bg=ctx.createLinearGradient(0,0,0,h);bg.addColorStop(0,'#081526');bg.addColorStop(1,'#050914');ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);for(const s of stars){ctx.globalAlpha=.25+s.z*.3;ctx.fillStyle='#bceeff';ctx.fillRect(s.x,s.y,s.z,s.z*2)}ctx.globalAlpha=1;
+  for(const b of shots){ctx.fillStyle='#80e7ff';ctx.shadowBlur=12;ctx.shadowColor='#80e7ff';ctx.fillRect(b.x-2,b.y-9,4,13)}ctx.shadowBlur=0;
+  for(const b of enemyShots)circle(b.x,b.y,b.r,'#ff6684',9);
+  for(const f of foes){ctx.save();ctx.translate(f.x,f.y);ctx.shadowBlur=14;ctx.shadowColor='#ff527c';ctx.fillStyle='#ff527c';ctx.beginPath();ctx.moveTo(0,13);ctx.lineTo(-13,-7);ctx.lineTo(-5,-4);ctx.lineTo(0,-12);ctx.lineTo(5,-4);ctx.lineTo(13,-7);ctx.closePath();ctx.fill();ctx.restore()}
+  ctx.save();ctx.translate(ship.x,ship.y);ctx.shadowBlur=20;ctx.shadowColor='#72ddff';ctx.fillStyle='#e8fbff';ctx.beginPath();ctx.moveTo(0,-17);ctx.lineTo(12,12);ctx.lineTo(0,7);ctx.lineTo(-12,12);ctx.closePath();ctx.fill();ctx.fillStyle='#53bfff';ctx.beginPath();ctx.moveTo(-4,10);ctx.lineTo(0,19+Math.random()*6);ctx.lineTo(4,10);ctx.fill();ctx.restore();
+  for(const p of sparks){ctx.globalAlpha=Math.max(0,p.t*3);circle(p.x,p.y,7+(1-p.t)*14,'#ffd36e',15)}ctx.globalAlpha=1
+ }
+})();
 </script>
 </body>
 </html>
