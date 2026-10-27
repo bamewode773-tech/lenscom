@@ -487,7 +487,7 @@ async function resetPassword(){
   return;
  }
  const {error}=await lensClient.auth.resetPasswordForEmail(email,{
-  redirectTo:window.location.origin+window.location.pathname+'?reset-password=1'
+  redirectTo:'https://bamewode773-tech.github.io/lenscom/?reset-password=1'
  });
  $('err').textContent=error
   ?'Could not send reset email: '+error.message
